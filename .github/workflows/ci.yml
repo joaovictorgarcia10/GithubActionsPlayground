@@ -5,7 +5,7 @@ on:
     branches:
       - develop
       - main
-      
+
   pull_request:
     branches: 
       - develop
@@ -29,6 +29,7 @@ jobs:
       - run: flutter format --dry-run --set-exit-if-changed test/
       - run: flutter test --coverage
       - run: flutter test --machine > test-results.json
+    
       - uses: dorny/test-reporter@v1.4.2
         with:
           name: test-results
