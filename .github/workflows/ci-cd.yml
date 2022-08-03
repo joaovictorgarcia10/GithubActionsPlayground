@@ -44,22 +44,23 @@ jobs:
           channel: "stable"
           flutter-version: '3.0.5'
           architecture: x64
-      - uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r dir.zip dir
+      - uses: thedoctor0/zip-release@main   
+      
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build ios --release --no-codesign    
+
       - run: mkdir -p build/ios/iphoneos/Payload
       - run: mv build/ios/iphoneos/Runner.app build/ios/iphoneos/Payload
       - run: cd build/ios/iphoneos
-      - run: zip -r app.ipa Payload
+      - run: zip -r app-release.ipa Payload
       - run: rm -rf Payload
+     
       - name: iOS Bundle
         uses: actions/upload-artifact@v2.1.4
         with:
           name: iosbundle
-          path: build/ios/iphoneos/app.ipa
+          path: build/ios/iphoneos/app-release.ipa
 
 
   
