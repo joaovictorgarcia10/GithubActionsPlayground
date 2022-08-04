@@ -49,14 +49,13 @@ jobs:
       - run: flutter build ios --release --no-codesign    
       - run: mkdir -p build/ios/iphoneos/Payload
       - run: mv build/ios/iphoneos/Runner.app build/ios/iphoneos/Payload
-      - run: cd build/ios/iphoneos
-      - run: zip -r app.ipa . -i Payload
-      - run: rm -rf Payload
-      - name: iOS Bundle
-        uses: actions/upload-artifact@v2.1.4
-        with:
-          name: iosbundle
-          path: build/ios/iphoneos/app.ipa
+      - run: zip -qr build/ios/iphoneos/app-unsigned.ipa . -i build/ios/iphoneos/Payload/Runner.app
+      - run: rm -rf build/ios/iphoneos/Payload
+      - name: Upload iOS IPA
+        uses: actions/upload-artifact@v3.1.0
+        with: 
+          name: app-unsigned-ios
+          path: build/ios/iphoneos/app-unsigned.ipa
 
 
   
@@ -78,7 +77,7 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build appbundle
-      - name: Android Bundle
+      - name: Update Android Bundle
         uses: actions/upload-artifact@v2.1.4
         with:
           name: appbundle
